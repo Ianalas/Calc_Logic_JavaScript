@@ -45,11 +45,11 @@ function encontrarParenteses(expressao) {
         const nextChar = expressao[i + 1];
 
         if (array_symbol.includes(char) && char === nextChar) {
-            console.log(`Caractere ${char} é igual ao próximo caractere ${nextChar} na posição`);
+            console.log(`ADV: Caractere "${char}" é igual ao próximo caractere "${nextChar}" na posição`);
             break; // Verifica os símbolos (Não podem estar juntos)
         }
         if (array_letter.includes(char) && char === nextChar) {
-            console.log(`Caractere ${char} é igual ao próximo caractere ${nextChar} na posição`);
+            console.log(`ADV: Caractere "${char}" é igual ao próximo caractere "${nextChar}" na posição`);
             break; // Verifica as letras (Não podem estar juntas)
         }
 
@@ -73,7 +73,7 @@ function encontrarParenteses(expressao) {
 }
 
 const parentesesEncontrados = encontrarParenteses(lines);
-//console.log(parentesesEncontrados);
+console.log(parentesesEncontrados);
 
 
 //ETAPA III
