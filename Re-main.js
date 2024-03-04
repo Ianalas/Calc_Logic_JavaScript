@@ -3,6 +3,7 @@ var lines = readInputFile('entrada')
 const logic = require('propositional_logic-js')
 const array_symbol = ['&','∨','¬','⇒','⇔','(',')']
 
+
 // No comment input
 function readInputFile() {
     let lines = input.split('\n').filter(line => !line.startsWith('#'));
@@ -24,7 +25,7 @@ function checar_letter(el){
 lines.filter(checar_letter)
 
 
-// Pega a conclusão
+// Pega a premissa
 function extrairConteudoParenteses(input) { //pega as expressões entre parenteses
     const regex = /\(([^)]+)\)/g;
     let match;
@@ -39,10 +40,10 @@ function extrairConteudoParenteses(input) { //pega as expressões entre parentes
 const symbolsLetters__Parentheses = extrairConteudoParenteses(lines);
 let array_premisse = symbolsLetters__Parentheses.map((el)=>[el.join('')]); // junta as letras
 array_premisse = array_premisse.flat() // pega todas as premissas e transforma em unica array
+array_premisse.pop()
 
 
 // Pega a conclusão
-
 var conclusion 
 lines.forEach((el,key)=>{ //verifica se tem o "⇒" fora de parenteses
     if(el==='⇒' && lines[key-1] ===')'){ //se tiver após ")"
@@ -60,9 +61,7 @@ lines.forEach((el,key)=>{ //verifica se tem o "⇒" fora de parenteses
     }
 });
 
-
-console.log(logic.evaluateLogic(array_premisse, conclusion));// errado (Ajeitar)
-console.log(logic.evaluateLogic(['¬A∨B','B⇒C'], 'A&C'));// certo
+console.log(logic.evaluateLogic(array_premisse, conclusion));// Feito
 
 
 
