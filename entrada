@@ -1,9 +1,10 @@
-[~(A∧B)→B]
+(¬A∨B)&(B⇒C)⇒(A&C)
 
 #####################
 
-#Negação: ~
-#Conjunção: ∧
+###############NÃO USE COLCHETE KRL!
+#Negação: ¬
+#Conjunção: &
 #Disjunção: ∨
-#Condicional: →
-#Bi-Condicional: ↔
+#Condicional: ⇒
+#Bi-Condicional: ⇔
