@@ -60,7 +60,9 @@ lines.forEach((el,key)=>{ //verifica se tem o "⇒" fora de parenteses
     }
 });
 
-console.log(logic.evaluateLogic(['¬A∨B','B⇒C'], 'A&C'));
+
+console.log(logic.evaluateLogic(array_premisse, conclusion));// errado (Ajeitar)
+console.log(logic.evaluateLogic(['¬A∨B','B⇒C'], 'A&C'));// certo
 
 
 
