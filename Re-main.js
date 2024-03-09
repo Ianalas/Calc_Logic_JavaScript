@@ -5,11 +5,15 @@ const array_symbol = ['&','∨','¬','⇒','⇔','(',')']
 
 
 // No comment input
+var fora 
 function readInputFile() {
     let lines = input.split('\n').filter(line => !line.startsWith('#'));
     return lines.join('').split('');
 }
-
+lines.pop()
+lines.pop()
+lines.pop()
+var fora = lines.join('')
 
 // Pega as letras da entrada
 var array_letter = [];
@@ -61,7 +65,96 @@ lines.forEach((el,key)=>{ //verifica se tem o "⇒" fora de parenteses
     }
 });
 
-console.log(logic.evaluateLogic(array_premisse, conclusion));// Feito
+if(conclusion !== null){
+    console.log(logic.evaluateLogic(array_premisse, conclusion));// Feito   
+}
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+
+function evaluate(proposition, values) {
+    // Substitui o operador de implicação (⇒) pela sua equivalência (!A || B)
+    let expression = proposition.replace(/([A-Z])⇒([A-Z].*?)/g, '(!$1 || $2)');
+    // Substitui valores de variáveis por seus valores reais
+    for (let variable of Object.keys(values)) {
+        let regex = new RegExp('\\b' + variable + '\\b', 'g');
+        expression = expression.replace(regex, values[variable]);
+    }
+    // Avalia a expressão de forma segura
+    try {
+        return Function(`return (${expression});`)();
+    } catch (error) {
+        console.error('Erro ao avaliar a expressão:', error.message);
+        return null;
+    }
+}
+
+function convertSymbols(str) {
+    let symbols = {
+        '&': '&&',
+        '∨': '||',
+        '¬': '!',
+        '⇒': '||'
+    };
+        for (let symbol in symbols) {
+            if( symbol === '⇒'){
+                let posicao = str.indexOf(symbol)
+                let newStr = minhaString.substring(0, posicao) + "!" + minhaString.substring(posicao + 1)
+                let regex = new RegExp(symbol, 'g');
+                str = str.replace(regex, symbols[symbol]);
+                str = '!'+str
+                continue
+            } else{
+            let regex = new RegExp(symbol, 'g');
+            str = str.replace(regex, symbols[symbol]);
+            } 
+        }
+    return str;
+}
+
+function truthTable(propositions, variables) {
+    let n = variables.length;
+    let rows = Math.pow(2, n);
+
+    for (let proposition of propositions) {
+        let results = [];
+        for (let i = 0; i < rows; i++) {
+            let values = {};
+            for (let j = 0; j < n; j++) {
+                values[variables[j]] = Boolean((i >> j) & 1);
+            }
+            results.push(evaluate(proposition, values) ? 1 : 0);
+        }
+
+        let allTrue = results.every(result => result === 1);
+        let allFalse = results.every(result => result === 0);
+
+        if (allTrue) {
+            console.log(`${proposition} é uma tautologia.`);
+        } else if (allFalse) {
+            console.log(`${proposition} é uma contradição.`);
+        } else {
+            console.log(`${proposition} é uma contingência.`);
+        }
+    }
+}
+
+let proposition = ["(P&Q)⇒(P∨Q)"];
+let symb = ['P', 'Q'];
+
+// Convertendo os símbolos antes de avaliar a expressão
+let convertedProposition = convertSymbols(fora);
+console.log(`Proposição convertida: ${convertedProposition}`);
+
+
+truthTable([convertedProposition], array_letter);
+
+
+
+
+
+
 
 
 
