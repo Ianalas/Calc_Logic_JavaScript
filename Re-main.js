@@ -1,5 +1,6 @@
 const input = require('fs').readFileSync('entrada', 'utf8')
 var lines = readInputFile('entrada')
+const { log } = require('console')
 const logic = require('propositional_logic-js')
 const array_symbol = ['&','∨','¬','⇒','⇔','(',')']
 
@@ -12,8 +13,7 @@ function readInputFile() {
 }
 lines.pop()
 lines.pop()
-lines.pop()
-var fora = lines.join('')
+fora = lines.join('')
 
 // Pega as letras da entrada
 var array_letter = [];
@@ -85,7 +85,7 @@ function evaluate(proposition, values) {
     try {
         return Function(`return (${expression});`)();
     } catch (error) {
-        console.error('Erro ao avaliar a expressão:', error.message);
+        console.log("Error ao avaliar a string", error.message)
         return null;
     }
 }
@@ -97,19 +97,29 @@ function convertSymbols(str) {
         '¬': '!',
         '⇒': '||'
     };
-        for (let symbol in symbols) {
-            if( symbol === '⇒'){
-                let posicao = str.indexOf(symbol)
-                let newStr = minhaString.substring(0, posicao) + "!" + minhaString.substring(posicao + 1)
-                let regex = new RegExp(symbol, 'g');
-                str = str.replace(regex, symbols[symbol]);
-                str = '!'+str
-                continue
-            } else{
+    const value = str
+    for (let symbol in  symbols) {
+    let indice = value.indexOf(symbol)
+    const regex_1 =  /[A-Za-z]/g
+        if( symbol === '⇒' && regex_1.test(value[indice - 1])){
             let regex = new RegExp(symbol, 'g');
             str = str.replace(regex, symbols[symbol]);
-            } 
-        }
+            str = str.split('').map((key, index) => {
+                if(index === indice -1) {
+                    return `!${key}`
+                }
+                return key
+            }).join('')
+        } 
+        if (symbol === '⇒' ){
+            let regex = new RegExp(symbol, 'g');
+            str = str.replace(regex, symbols[symbol]);
+            str = '!'+ str
+        }  
+    }
+    Object.entries(symbols).forEach(([el, key]) => {
+       str = str.replaceAll(el, key)
+    })
     return str;
 }
 
@@ -145,8 +155,6 @@ let symb = ['P', 'Q'];
 
 // Convertendo os símbolos antes de avaliar a expressão
 let convertedProposition = convertSymbols(fora);
-console.log(`Proposição convertida: ${convertedProposition}`);
-
 
 truthTable([convertedProposition], array_letter);
 
