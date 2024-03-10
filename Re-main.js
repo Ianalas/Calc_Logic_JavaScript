@@ -1,9 +1,7 @@
 const input = require('fs').readFileSync('entrada', 'utf8')
 var lines = readInputFile('entrada')
-const { log } = require('console')
 const logic = require('propositional_logic-js')
 const array_symbol = ['&','∨','¬','⇒','⇔','(',')']
-
 
 // No comment input
 var fora 
@@ -27,7 +25,6 @@ function checar_letter(el){
         return el
 }
 lines.filter(checar_letter)
-
 
 // Pega a premissa
 function extrairConteudoParenteses(input) { //pega as expressões entre parenteses
@@ -69,9 +66,7 @@ if(conclusion !== null){
     console.log(logic.evaluateLogic(array_premisse, conclusion));// Feito   
 }
 
-
 //////////////////////////////////////////////////////////////////////////////////////////////
-
 
 function evaluate(proposition, values) {
     // Substitui o operador de implicação (⇒) pela sua equivalência (!A || B)
@@ -141,21 +136,19 @@ function truthTable(propositions, variables) {
         let allFalse = results.every(result => result === 0);
 
         if (allTrue) {
-            console.log(`${proposition} é uma tautologia.`);
+            console.log(`${proposition} É uma tautologia.`);
         } else if (allFalse) {
-            console.log(`${proposition} é uma contradição.`);
+            console.log(`${proposition} É uma contradição.`);
         } else {
-            console.log(`${proposition} é uma contingência.`);
+            console.log(`${proposition} É uma contingência.`);
         }
     }
 }
 
-let proposition = ["(P&Q)⇒(P∨Q)"];
-let symb = ['P', 'Q'];
 
 // Convertendo os símbolos antes de avaliar a expressão
-let convertedProposition = convertSymbols(fora);
 
+let convertedProposition = convertSymbols(fora);
 truthTable([convertedProposition], array_letter);
 
 
